@@ -1,0 +1,33 @@
+{
+  "originHash" : "58e8d53eac6d8d293745d20d0e59f93a1e19317b54fe9ae8079f34739f8a8360",
+  "pins" : [
+    {
+      "identity" : "modernistik",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/modernistik/Modernistik",
+      "state" : {
+        "revision" : "1f5cb9933d5d34b79dab5ae8e0f22cb4f710cb5c",
+        "version" : "0.7.2"
+      }
+    },
+    {
+      "identity" : "parse-swift",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/parse-community/Parse-Swift",
+      "state" : {
+        "revision" : "931ae8f7920dea77d3ce769f797bf1533fad8ae4",
+        "version" : "2.5.1"
+      }
+    },
+    {
+      "identity" : "timezonelocate",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/hspindell/TimeZoneLocate",
+      "state" : {
+        "revision" : "38ba0d382c39802cc8c62d7a4dd4d0e30e16cb94",
+        "version" : "0.6.0"
+      }
+    }
+  ],
+  "version" : 3
+}
