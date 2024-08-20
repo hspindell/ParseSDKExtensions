@@ -12,12 +12,8 @@ To run the example project, clone the repo, and run `pod install` from the Examp
 
 ## Installation
 
-ParseSDKExtensions is available through [CocoaPods](https://cocoapods.org). To install
-it, simply add the following line to your Podfile:
-
-```ruby
-pod 'ParseSDKExtensions'
-```
+### Swift Package Manager
+ParseSDKExtensions is available as a Swift Package on Xcode 12 and later. Add the repository url to the list of Swift packages in Xcode.
 
 ## Author
 

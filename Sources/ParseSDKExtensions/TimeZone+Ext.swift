@@ -34,7 +34,7 @@ public protocol TimeZoneAccessible {
     /// Returns the time zone, either from the stored object, or best-effort
     /// from either `TimeZoneLocate` database or `CLGeocoder`.
 
-    var timeZone: TimeZone { get set }
+    var timeZone: String? { get set }
 }
 
 extension TimeZoneAccessible where Self: ParseObject {
@@ -56,36 +56,27 @@ extension TimeZoneAccessible where Self: ParseObject {
      You can then have your ParseObject subclasses implement the `TimeZoneAccessible`
      protocol to gain the special handling.
      */
-    
-    // TODO how to handle these subscript property assignments?
-//    public var timeZone: TimeZone
-//    {
-//        get {
-//            // use the genereated zone if available
-//            if let timeZoneName = self["timeZone"] as? String, let tz = TimeZone(identifier: timeZoneName) {
-//                return tz
-//            } else if let tz = location?.timeZone {
-//                self["timeZone"] = tz.identifier
-//                updateTimeZone() // kick off async to get more accurate time zone info
-//                return tz
-//            }
-//            self.timeZone
-//        }
-//        set {
-//            self["timeZone"] = newValue.identifier
-//        }
-//    }
+    public var tz: TimeZone {
+        get {
+            guard let timeZone, let type = TimeZone(identifier: timeZone) else {
+                return .current
+            }
+            return type
+        }
+        set {
+            timeZone = newValue.identifier
+        }
+    }
 
     /// Silently updates the `timeZone` property with an accruate time zone
     /// by reverse geocoding the `location` field, if available.
-    public mutating func updateTimeZone() {
-        let coder = CLGeocoder()
-        guard let loc = location?.location else { return }
-
-        // TODO migration
+//    public mutating func updateTimeZone() {
+//        let coder = CLGeocoder()
+//        guard let loc = location?.location else { return }
+//
 //        coder.reverseGeocodeLocation(loc) { placemarks, _ in
 //            guard let tz = placemarks?.last?.timeZone else { return }
-//            self.timeZone = tz // .identifier
+//            self.tz = tz // .identifier
 //        }
-    }
+//    }
 }

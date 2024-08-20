@@ -14,7 +14,7 @@ public typealias FunctionResultBlock<T> = (T?, Error?) -> Void
 public typealias GeoPointResultBlock = (ParseGeoPoint?, Error?) -> Void
 
 // temp
-public typealias BooleanResultBlock = (Bool, Error?) -> Void
+public typealias BooleanResultBlock = (Bool, ParseError?) -> Void
 
 
 /// Alias to `ParseUser`. Subclass this to add properties to your user class.
