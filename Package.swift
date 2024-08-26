@@ -17,7 +17,7 @@ let package = Package(
     ],
     dependencies: [
         // parse-community -> netreconlab github when ready for Parse 5+
-        .package(url: "https://github.com/parse-community/Parse-Swift", .upToNextMajor(from: "2.5.1")),
+        .package(url: "https://github.com/parse-community/Parse-Swift", .upToNextMajor(from: "3.1.2")),
         .package(url: "https://github.com/modernistik/Modernistik", from: "0.4.9"),
         .package(url: "https://github.com/hspindell/TimeZoneLocate", from: "0.6.0"),
     ],
