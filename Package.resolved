@@ -1,5 +1,5 @@
 {
-  "originHash" : "c37477b89f42c3f72fc55d645f32b54f52d2b68d426719f893eb316d8a72d5b8",
+  "originHash" : "2904b8bfa6963af2ee1b248aef0df924fe92f8502bac748f369b8e1c634dff11",
   "pins" : [
     {
       "identity" : "modernistik",
@@ -15,8 +15,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/parse-community/Parse-Swift",
       "state" : {
-        "revision" : "3c3a6e8637a1d93c5f1b910a942aeaedffc77fda",
-        "version" : "3.1.2"
+        "revision" : "dc7666f774755be333f48f25c4d8bead0a1a6877",
+        "version" : "4.14.2"
       }
     },
     {

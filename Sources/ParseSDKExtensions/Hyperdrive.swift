@@ -95,21 +95,6 @@ public protocol Hyperdrive {
     /// It is highly recommended for this to be of type `String`.
     associatedtype Function: RawRepresentable
 
-    /// A **synchronous** API to call a cloud function.
-    ///
-    /// - Parameter function: The name of the function.
-    /// - Parameter params: The parameters to send to the function.
-    /// - Returns: The result of the function.
-    /// - Throws: The server error that was returned.
-    static func call(function: String, with params: Params?) throws -> Any
-
-    /// An **asynchronous** API to call a cloud function.
-    ///
-    /// - Parameter function: The name of the function.
-    /// - Parameter params: The parameters to send to the function.
-    /// - Parameter block: The block to execute when the function call finished. It should have the following argument signature: `(result,error)`.
-//    static func callInBackground(function: String, with params: Params?, block: FunctionResultBlock?)
-
     /**
      The method to call to initiate configuration and connection to the Hyperdrive server.
 
@@ -126,84 +111,7 @@ public protocol Hyperdrive {
     static func updateConfiguration(completion: ResultBlock?)
 }
 
-extension Hyperdrive where Function.RawValue == String {
-    /**
-     A **synchronous** API to call a cloud function.
-      ## Example
-
-      ````
-      class MyAppServer : Hyperdrive {
-         enum Function: String {
-             case helloWorld
-         }
-      }
-
-      let params = ["key":"value"]
-
-      MyAppServer.call(function: .helloWorld, with: params)
-      ````
-
-     - Parameter function: One of the `Function` enums defined in your Hyperdrive class.
-     - Parameter params: The parameters to send to the function.
-     - Returns: The result of the function.
-     - Throws: The server error that was returned.
-     */
-    @discardableResult
-    public static func call(function: Function, with params: Params? = nil) throws -> Any {
-        // TODO how to add params?
-        try HyperdriveCloud(functionJobName: function.rawValue).runFunction()
-    }
-
-    /**
-     A **asynchronous** API to call a Hyperdrive cloud function.
-     ## Example
-
-     ````
-     class MyAppServer : Hyperdrive {
-        enum Function: String {
-            case helloWorld
-        }
-     }
-
-     let params = ["key":"value"]
-
-     MyAppServer.callInBackground(function: .helloWorld, with: params) { (result, error) in
-        // handle result or error
-     }
-     ````
-
-     - Parameter function: One of the `Function` enums defined in your Hyperdrive class.
-     - Parameter params: The parameters to send to the function.
-     - Parameter block: The block to execute when the function call finished. It should have the following argument signature: `(result,error)`.
-     */
-//    public static func callInBackground(function: Function, with params: Params? = nil, block: FunctionResultBlock?) {
-//        // TODO "background"? + params
-//        try HyperdriveCloud(functionJobName: function.rawValue).runFunction() { result in
-////            block?(result)
-//        }
-//    }
-}
-
 extension Hyperdrive {
-    /// Returns the config value based on the key.
-    ///
-    /// - Parameter key: The name of the configuration key.
-    /// - Returns: The value for this key if any.
-//    public static func config(_ key: String) -> Any? {
-//        return nil
-//    }
-
-    /// Method to fetch updated configuration (Parse Config) from the server. If successful, it
-    /// will send a `HyperdriveConfigUpdatedNotification` notification.
-    ///
-    /// - Parameter completion: A completion handler when the fetch has been completed.
-//    public static func updateConfiguration(completion: ResultBlock? = nil) {
-//        ParseConfig.getInBackground { (config, error) -> Void in
-//            completion?(error)
-//            guard error == nil else { return }
-//            NotificationCenter.default.post(name: .HyperdriveConfigUpdatedNotification, object: config, userInfo: nil)
-//        }
-//    }
 
     /// Clears all results for queries that have been cached.
     public static func clearCaches() {
@@ -244,26 +152,6 @@ extension Hyperdrive {
         defaultACL.publicWrite = write
         return try ParseACL.setDefaultACL(defaultACL, withAccessForCurrentUser: currentUserAccess)
     }
-
-    /// A **synchronous** API to call a cloud function.
-    ///
-    /// - Parameter function: The name of the function.
-    /// - Parameter params: The parameters to send to the function.
-    /// - Returns: The result of the function.
-    /// - Throws: The server error that was returned.
-//    @discardableResult
-//    public static func call(function: String, with params: Params? = nil) throws -> Any {
-//        return try ParseCloud.callFunction(function, withParameters: params)
-//    }
-
-    /// An **asynnchronous** API to call a cloud function.
-    ///
-    /// - Parameter function: The name of the function.
-    /// - Parameter params: The parameters to send to the function.
-    /// - Parameter block: The block to execute when the function call finished. It should have the following argument signature: `(result,error)`.
-//    public static func callInBackground(function: String, with params: Params? = nil, block: FunctionResultBlock?) {
-//        ParseCloud.callFunction(inBackground: function, withParameters: params, block: block)
-//    }
 }
 
 extension Notification.Name {
