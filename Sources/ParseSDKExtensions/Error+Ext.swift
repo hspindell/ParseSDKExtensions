@@ -42,11 +42,19 @@ extension Error {
      */
     public var validError: Error? {
         if isCacheMiss { return nil }
-        if isSessionError {
-            NotificationCenter.default.post(name: .HyperdriveSessionErrorNotification, object: self, userInfo: nil)
+        if checkSession() == false {
             return nil
         }
         return self
+    }
+    
+    @discardableResult
+    public func checkSession() -> Bool {
+        if isSessionError {
+            NotificationCenter.default.post(name: .HyperdriveSessionErrorNotification, object: self, userInfo: nil)
+            return false
+        }
+        return true
     }
 
     /// Returns `true` if this error was due to an object not found or
@@ -55,25 +63,25 @@ extension Error {
     /// to view the object due to ACLs.
     /// See `PFErrorCode.errorObjectNotFound`
     public var isObjectNotFound: Bool {
-        return code == ParseError.Code.objectNotFound.rawValue && domain == "Parse"
+        return parseCode == .objectNotFound
     }
 
     /// Returns `true` if this is a connection failure when connected to Parse server.
     /// See `PFErrorCode.errorConnectionFailed`
     public var isOffline: Bool {
-        return code == ParseError.Code.connectionFailed.rawValue && domain == "Parse"
+        return parseCode == .connectionFailed
     }
 
     /// Cloud code script or hook had an error (Ex. before save hook fails)
     /// See `PFErrorCode.scriptError`
     public var isScriptError: Bool {
-        return code == ParseError.Code.scriptFailed.rawValue && domain == "Parse"
+        return parseCode == .scriptFailed
     }
 
     /// Returns `true` if this is a Parse validation error.
     /// See `PFErrorCode.validationError`
     public var isValidationError: Bool {
-        return code == ParseError.Code.validationFailed.rawValue && domain == "Parse"
+        return parseCode == .validationFailed
     }
 
     /**
@@ -106,12 +114,16 @@ extension Error {
     /// for the user has expired or has been revoked in Parse.
     /// When this happens, the current user should be logged out of the app.
     public var isSessionError: Bool {
-        return code == ParseError.Code.invalidSessionToken.rawValue || code == ParseError.Code.userCannotBeAlteredWithoutSession.rawValue
+        return parseCode?.any(of: .invalidSessionToken, .userCannotBeAlteredWithoutSession) == true
     }
 
     /// Return the error code.
     public var code: Int {
         return (self as NSError).code
+    }
+    
+    public var parseCode: ParseError.Code? {
+        return (self as? ParseError)?.code
     }
 
     /// Return the domain string for the error.
